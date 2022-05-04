@@ -108,7 +108,7 @@ jobs:
         sudo mv kubectl /usr/local/bin/
         echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
     - name: Update K8s
-      run: |
+      run: | 
         export CLR=blue
         export PRT=30080
         envsubst < ./manifest.yml | kubectl apply -f -
