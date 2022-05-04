@@ -31,6 +31,8 @@ jobs:
       
     - name: Login to Amazon ECR
       run: |
+        pwd
+        ls
         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 635261526007.dkr.ecr.ap-south-1.amazonaws.com
 
     - name: Build, tag, and push image to Amazon ECR
@@ -80,6 +82,8 @@ jobs:
       
     - name: Login to Amazon ECR
       run: |
+        pwd
+        ls
         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 635261526007.dkr.ecr.ap-south-1.amazonaws.com
 
     - name: Build, tag, and push image to Amazon ECR
