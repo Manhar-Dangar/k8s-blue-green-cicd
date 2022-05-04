@@ -15,7 +15,7 @@ env:
 jobs:
   
   green-deployment:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if:  startsWith(github.head_ref, 'dev')
 
     steps:
@@ -64,7 +64,7 @@ jobs:
         kubectl rollout restart deployment prod-green
   
   blue-deployment:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     if:  startsWith(github.head_ref, 'stage')
 
     steps:
