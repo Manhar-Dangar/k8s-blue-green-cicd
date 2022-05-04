@@ -40,9 +40,9 @@ jobs:
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
-        docker build ./app/       
-        --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
-        --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.SHORT_SHA }} \
+        docker build ./app/ 
+        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest \
+        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }} \
         .
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }}
@@ -91,8 +91,8 @@ jobs:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
         docker build ./app/ \
-        --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
-        --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.SHORT_SHA }} \
+        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:latest \
+        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:${{ env.SHORT_SHA }} \
         .
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:latest
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:${{ env.SHORT_SHA }}
