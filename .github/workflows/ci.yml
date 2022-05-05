@@ -9,7 +9,7 @@ on:
       - closed
 
 env: 
-  AWS_REGION: ap-south-1
+  AWS_REGION: ${{ secrets.AWS_REGION }}
   SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
 
 jobs:
@@ -54,7 +54,7 @@ jobs:
         chmod +x kubectl
         sudo mv kubectl /usr/local/bin/
         echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
-    - name: Update K8s
+    - name: Update K8s Green deployment
       run: |
         export CLR=green
         export PRT=30081
@@ -87,22 +87,11 @@ jobs:
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
-        docker build ./app/ 
-        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:latest \
-        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:${{ env.SHORT_SHA }} \
-        docker push 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
+        docker build -t k8s-cicd-blue ./app/ 
+        docker tag k8s-cicd-blue:latest 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-blue:latest
+        docker push 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-blue:latest
 
-    - name: Install and configure kubectl
-      run: |
-        VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-        curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-          --progress-bar \
-          --location \
-          --remote-name
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin/
-        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
-    - name: Update K8s
+    - name: Update K8s blue deployment
       run: | 
         export CLR=blue
         export PRT=30080
