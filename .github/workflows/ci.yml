@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - dev
-  pull_request_target:
+  pull_request_target: 
     types:
       - closed
 
@@ -40,9 +40,11 @@ jobs:
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
-        docker build ./app/
-        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest \
-        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }} \
+       cd site
+       docker image build \
+       --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest \
+       --tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.SHORT_SHA }} \
+
         .
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }}
@@ -90,7 +92,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
-        docker build ./app/ \
+        docker build ./app/ 
         --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:latest \
         --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-blue:${{ env.SHORT_SHA }} \
         .
@@ -108,7 +110,7 @@ jobs:
         sudo mv kubectl /usr/local/bin/
         echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
     - name: Update K8s
-      run: |
+      run: | 
         export CLR=blue
         export PRT=30080
         envsubst < ./manifest.yml | kubectl apply -f -
