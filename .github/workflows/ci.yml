@@ -40,7 +40,6 @@ jobs:
       env:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
-        docker build ./app/
         --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest \
         --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }} \
         .
