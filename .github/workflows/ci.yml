@@ -42,9 +42,7 @@ jobs:
       run: |
         docker build -t k8s-cicd-green ./app/ 
         docker tag k8s-cicd-green:latest 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
-        .
-        docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest
-        docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }}
+        docker push 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
 
     - name: Install and configure kubectl
       run: |
