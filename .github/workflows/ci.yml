@@ -42,7 +42,7 @@ jobs:
       run: |
         docker build ./app/ 
         --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest \
-        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }} \
+        --tag ${{ env.ECR_REGISTRY }}/k8s-cicd-green:${{ env.SHORT_SHA }} \ 
 
         .
         docker push ${{ env.ECR_REGISTRY }}/k8s-cicd-green:latest
