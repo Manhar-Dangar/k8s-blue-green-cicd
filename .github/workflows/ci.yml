@@ -44,16 +44,16 @@ jobs:
         docker tag k8s-cicd-green:latest 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
         docker push 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
 
-    - name: Install and configure kubectl
-      run: |
-        VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-        curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-          --progress-bar \
-          --location \
-          --remote-name
-        chmod +x kubectl
-        sudo mv kubectl /usr/local/bin/
-        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+    # - name: Install and configure kubectl
+    #   run: |
+    #     VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    #     curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+    #       --progress-bar \
+    #       --location \
+    #       --remote-name
+    #     chmod +x kubectl
+    #     sudo mv kubectl /usr/local/bin/
+    #     echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
     - name: Update K8s Green deployment
       run: |
         export CLR=green
