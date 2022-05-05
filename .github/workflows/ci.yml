@@ -1,16 +1,9 @@
 name: EKS-cicd
 
 on:
-  push:
-    branches:
-      - dev
   pull_request_target: 
     types:
       - closed
-
-env: 
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
 
 jobs:
   
@@ -36,8 +29,8 @@ jobs:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
         docker build -t k8s-cicd-green ./app/ 
-        docker tag k8s-cicd-green:latest 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
-        docker push 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-green:latest
+        docker tag k8s-cicd-green:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k8s-cicd-green:latest
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k8s-cicd-green:latest
 
     - name: Update K8s Green deployment
       run: |
@@ -67,8 +60,8 @@ jobs:
         ECR_REGISTRY: ${{steps.login-ecr.outputs.registry}}
       run: |
         docker build -t k8s-cicd-blue ./app/ 
-        docker tag k8s-cicd-blue:latest 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-blue:latest
-        docker push 635261526007.dkr.ecr.ap-south-1.amazonaws.com/k8s-cicd-blue:latest
+        docker tag k8s-cicd-blue:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k8s-cicd-blue:latest
+        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/k8s-cicd-blue:latest
 
     - name: Update K8s blue deployment
       run: | 
